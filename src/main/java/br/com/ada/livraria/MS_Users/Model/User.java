@@ -1,4 +1,4 @@
-package br.com.ada.livraria.MS_Users.Model.UserTypes;
+package br.com.ada.livraria.MS_Users.Model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

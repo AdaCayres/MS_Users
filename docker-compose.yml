@@ -1,0 +1,33 @@
+
+version: '2'
+
+services:
+  #service 1: definition of mysql database
+  db:
+    image: mysql:latest
+    container_name: mysql-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    restart: always
+
+
+  users_microservice:                        #it is just a name, which will be used only in this file.
+    image: msusers.jar               #name of the image after dockerfile executes
+    container_name: ms-users  #name of the container created from docker image
+    build:
+      context: .                          #docker file path (. means root directory)
+      dockerfile: Dockerfile              #docker file name
+    ports:
+      - "8084:8084"                       #docker containter port with your os port
+    restart: always
+
+    depends_on:                           #define dependencies of this app
+      - db                                #dependency name (which is defined with this name 'db' in this file earlier)
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306
+volumes:
+  mysql-volume:
